@@ -179,9 +179,12 @@ function addCloseAsideTocEvent() {
       )
       .concat(Array.from(document.querySelectorAll(".aside_nav_title")));
     contentAsideLinks.forEach((element) => {
-      const asideCheckBox = document.getElementById("content_aside_check");
       element.addEventListener("click", () => {
-        asideCheckBox.checked = false;
+        const asideCheckBox = document.getElementById("content_aside_check");
+        const asideContent =
+          document.getElementsByClassName("content_aside")[0];
+        asideCheckBox.click();
+        asideContent.scrollTo(0, 0);
       });
     });
   }

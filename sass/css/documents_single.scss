@@ -167,6 +167,16 @@ $content_aside_width: map-deep-get(
     tablet,
     documents_single_content_aside
   );
+  $content_nav_open_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_content_nav_open
+  );
+  $content_aside_open_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_content_aside_open
+  );
   $content_nav_close_width: map-deep-get(
     $width-map,
     tablet,
@@ -200,11 +210,12 @@ $content_aside_width: map-deep-get(
     }
 
     .content_nav {
-      width: map-deep-get(
-        $width-map,
-        tablet,
-        documents_single_content_nav_open
-      );
+      width: $content_nav_close_width;
+      overflow: hidden;
+      .nav_title,
+      ul {
+        transform: translateX(-100vw);
+      }
       .nav_title {
         padding-top: map-deep-get(
           $height-map,
@@ -228,13 +239,14 @@ $content_aside_width: map-deep-get(
         display: flex;
         justify-content: center;
         align-items: center;
-        span,
-        span::before {
+        span {
           display: block;
+          border: 1px solid rgba(black, 0.2);
+          background: map-deep-get($gradient-color-map, h1);
         }
         span::before {
-          font-size: 1.5rem;
-          content: "×";
+          font-size: 1rem;
+          content: "TOC1";
         }
         span:active {
           cursor: pointer;
@@ -244,11 +256,12 @@ $content_aside_width: map-deep-get(
     }
 
     .content_aside {
-      width: map-deep-get(
-        $width-map,
-        tablet,
-        documents_single_content_aside_open
-      );
+      width: $content_aside_close_width;
+      overflow: hidden;
+      .aside_nav_title,
+      ul {
+        transform: translateX(100vw);
+      }
       .aside_nav_title {
         padding-top: map-deep-get(
           $height-map,
@@ -268,17 +281,18 @@ $content_aside_width: map-deep-get(
           documents_single_content_aside_open_btn
         );
         position: absolute;
-        inset: 0 5px auto auto;
+        inset: 0 auto auto 5px;
         display: flex;
         justify-content: center;
         align-items: center;
-        span,
-        span::before {
+        span {
           display: block;
+          border: 1px solid rgba(black, 0.2);
+          background: map-deep-get($gradient-color-map, h1);
         }
         span::before {
-          font-size: 1.5rem;
-          content: "×";
+          font-size: 1rem;
+          content: "TOC2";
         }
         span:active {
           cursor: pointer;
@@ -288,45 +302,42 @@ $content_aside_width: map-deep-get(
     }
   }
 
-  #content_nav_check:not(:checked) {
+  #content_nav_check:checked {
     & ~ .grid-container .content_nav {
-      width: $content_nav_close_width;
-      overflow: hidden;
+      width: $content_nav_open_width;
+      overflow: auto;
       * {
-        transform: translateX(-100vw);
+        transform: none;
       }
       .content_nav_open_btn {
-        transform: unset;
         span {
-          transform: unset;
-          border: 1px solid rgba(black, 0.2);
-          background: map-deep-get($gradient-color-map, h1);
+          border: unset;
+          background: unset;
         }
         span::before {
-          font-size: 1rem;
-          content: "TOC1";
+          font-size: 1.5rem;
+          content: "×";
         }
       }
     }
   }
 
-  #content_aside_check:not(:checked) {
+  #content_aside_check:checked {
     & ~ .grid-container .content_aside {
-      width: $content_aside_close_width;
-      overflow: hidden;
+      width: $content_aside_open_width;
+      overflow: auto;
       * {
-        transform: translateX(200vw);
+        transform: none;
       }
       .content_aside_open_btn {
-        transform: unset;
+        inset: 0 0 auto auto;
         span {
-          transform: unset;
-          border: 1px solid rgba(black, 0.2);
-          background: map-deep-get($gradient-color-map, h1);
+          border: unset;
+          background: unset;
         }
         span::before {
-          font-size: 1rem;
-          content: "TOC2";
+          font-size: 1.5rem;
+          content: "×";
         }
       }
     }
@@ -367,9 +378,40 @@ $content_aside_width: map-deep-get(
       border: none;
     }
 
-    .content_nav .content_nav_open_btn span:hover,
-    .content_aside .content_aside_open_btn span:hover {
-      font-weight: normal;
+    .content_nav {
+      width: 100%;
+      .content_nav_open_btn {
+        inset: 0 auto auto 0;
+        width: 30px;
+        height: 30px;
+        border-right: 1px solid rgba(black, 0.2);
+        span,
+        span::before {
+          font-size: 0.7rem;
+          border: none;
+        }
+        span:hover {
+          font-weight: normal;
+        }
+      }
+    }
+
+    .content_aside {
+      width: 100%;
+      .content_aside_open_btn {
+        inset: 0 0 auto auto;
+        width: 30px;
+        height: 30px;
+        border-left: 1px solid rgba(black, 0.2);
+        span,
+        span::before {
+          font-size: 0.7rem;
+          border: none;
+        }
+        span:hover {
+          font-weight: normal;
+        }
+      }
     }
 
     .content_body {
@@ -385,6 +427,10 @@ $content_aside_width: map-deep-get(
     height: calc(100vh - #{$header_height});
     overflow-y: auto;
     background: white;
+    .content_nav_open_btn {
+      inset: 0 auto auto 0;
+      border: none;
+    }
   }
 
   #content_aside_check:checked ~ .grid-container .content_aside {
@@ -395,39 +441,8 @@ $content_aside_width: map-deep-get(
     height: calc(100vh - #{$header_height});
     overflow-y: auto;
     background: white;
-  }
-
-  #content_nav_check:not(:checked) {
-    & ~ .grid-container .content_nav {
-      width: 100%;
-      .content_nav_open_btn {
-        inset: 0 auto auto 0;
-        width: 30px;
-        height: 30px;
-        border-right: 1px solid rgba(black, 0.2);
-        span,
-        span::before {
-          font-size: 0.7rem;
-          border: none;
-        }
-      }
-    }
-  }
-
-  #content_aside_check:not(:checked) {
-    & ~ .grid-container .content_aside {
-      width: 100%;
-      .content_aside_open_btn {
-        inset: 0 0 auto auto;
-        width: 30px;
-        height: 30px;
-        border-left: 1px solid rgba(black, 0.2);
-        span,
-        span::before {
-          font-size: 0.7rem;
-          border: none;
-        }
-      }
+    .content_aside_open_btn {
+      border: none;
     }
   }
 }

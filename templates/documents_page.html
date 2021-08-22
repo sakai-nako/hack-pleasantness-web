@@ -31,9 +31,6 @@
     <a class="nav_title" href={{ root_section_obj.permalink }}>
         {{ root_section_obj.title }}
     </a>
-    <div class="content_nav_close_btn">
-        ×
-    </div>
     <ul>
         {% for subsection in root_section_obj.subsections %}
             {% set subsection_obj = get_section(path=subsection) %}
@@ -82,9 +79,6 @@
 {% block content_aside %}
     <label for="content_aside_check" class="content_aside_open_btn"><span></span></label>
     <a class="aside_nav_title">{{ page.title }}</a>
-    <div class="content_aside_close_btn">
-        ×
-    </div>
     {% if page.toc %}
         <ul>
             {% for h1 in page.toc %}
