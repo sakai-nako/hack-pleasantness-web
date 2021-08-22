@@ -1,0 +1,38 @@
+# The URL the site will be built for
+base_url = "https://sakai-nako.github.io"
+
+# The site title and description; used in feeds by default.
+description = "This is test website"
+title = "Nako's Knowledge Base"
+
+# The default language; used in feeds.
+default_language = "ja"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+# Whether external links are to be opened in a new tab
+# If this is true, a `rel="noopener"` will always automatically be added for security reasons
+external_links_target_blank = true
+
+# Whether to set rel="nofollow" for all external links
+external_links_no_follow = false
+
+# Whether to set rel="noreferrer" for all external links
+external_links_no_referrer = true
+
+[slugify]
+anchors = "safe"
+paths = "safe"
+taxonomies = "safe"
+
+[extra]
+# Put all your custom variables here

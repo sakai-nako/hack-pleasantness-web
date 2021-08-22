@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    {% block css %}
+    {% endblock css %}
+</head>
+
+<body>
+    <input type="checkbox" id="header_nav_check">
+    <label for="header_nav_check" class="header_nav_open_btn"><span></span></label>
+    {% block body%}
+    {% endblock body%}
+
+    <div class="grid-container">
+
+        <header class="header_content">
+
+            <div class="header_title">
+                <a href="{{ config.base_url }}">{{ config.title }}</a>
+            </div>
+
+            <nav class="header_nav">
+                <ul class="header_nav_list">
+                    <li class="header_nav_list_home">
+                        <a href="{{ config.base_url }}">HOME</a>
+                    </li>
+                    <li class="header_nav_list_about"><br/>ABOUT</li>
+                    <li class="header_nav_list_documents">
+                        <a href="{{ config.base_url }}/documents/">DOCUMENTS</a>
+                    </li>
+                    <li class="header_nav_list_blog"><br/>BLOG</li>
+                </ul>
+            </nav>
+
+        </header>
+
+        <nav class="content_nav">
+            {% block content_nav %}
+            {% endblock content_nav %}
+        </nav>
+
+        <div class="prev_btn">
+            {% block prev_btn %}
+            {% endblock prev_btn %}
+        </div>
+
+        <main class="content_body">
+            <div class="content_inside">
+                <h1 class="content_title">
+                    {% block content_title%}
+                    {% endblock content_title%}
+                </h1>
+                {% block content_body %}
+                {% endblock content_body %}
+            </div>
+        </main>
+
+        <div class="next_btn">
+            {% block next_btn %}
+            {% endblock next_btn %}
+        </div>
+
+        <aside class="content_aside">
+            {% block content_aside %}
+            {% endblock content_aside %}
+        </aside>
+
+        <footer class="footer_content">
+            {% block footer_content %}
+            {% endblock footer_content %}
+        </footer>
+
+    </div>
+
+    <script type="text/javascript" src="{{ get_url(path="js/base.js") | safe }}"></script>
+    {% block js_body %}
+    {% endblock js_body %}
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+
+{% block title %}
+    {{ section.title }}
+{% endblock title %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{{ get_url(path="css/documents_single.css") | safe }}">
+{% endblock css %}
+
+
+{% block body%}
+    <input type="checkbox" id="content_nav_check">
+    <input type="checkbox" id="content_aside_check">
+{% endblock body%}
+
+
+{% block content_title %}
+    {{ section.title }}
+{% endblock content_title %}
+
+
+{% block content_nav %}
+    <label for="content_nav_check" class="content_nav_open_btn"><span></span></label>
+    {% set root_section_obj = get_section(
+        path=macros::get_root_section_path(section_or_page_obj=section)
+    ) %}
+    <a class="nav_title" href={{ root_section_obj.permalink }}>
+        {{ root_section_obj.title }}
+    </a>
+    <ul>
+        {% for subsection in root_section_obj.subsections %}
+            {% set subsection_obj = get_section(path=subsection) %}
+                {{ macros::make_section_details(
+                    section_object=subsection_obj,
+                    details_open="close",
+                    list_style="ul"
+                    ) 
+                }}
+        {% endfor %}
+    </ul>
+{% endblock content_nav %}
+
+
+{% block prev_btn %}
+    <a class="back_to_top"></a>
+    {% if macros::get_prev_path_for_section(section_obj=section) != "empty" %}
+        <div class="btn_background enable">
+            <a class="jump_to" href="{{ macros::get_prev_path_for_section(section_obj=section)}}">＜</a>
+        </div>
+    {% else %}
+        <div class="btn_background disable">
+        </div>
+    {% endif %}
+{% endblock prev_btn %}
+
+
+{% block content_body %}
+    {{ section.content | safe }}
+{% endblock content_body %}
+
+
+{% block next_btn %}
+    <a class="back_to_top"></a>
+    {% if macros::get_next_link_for_section(section_obj=section) != "empty" %}
+        <div class="btn_background enable">
+            <a class="jump_to" href="{{ macros::get_next_link_for_section(section_obj=section)}}">＞</a>
+        </div>
+    {% else %}
+        <div class="btn_background disable">
+        </div>
+    {% endif %}
+{% endblock next_btn %}
+
+
+{% block content_aside %}
+    <label for="content_aside_check" class="content_aside_open_btn"><span></span></label>
+    <a class="aside_nav_title">{{ section.title }}</a>
+    {% if section.toc %}
+        <ul>
+            {% for h1 in section.toc %}
+                {{ macros::make_aside_toc_details(
+                    toc_object=h1,
+                    details_open="open",
+                    list_style="ul"
+                )}}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock content_aside %}
+
+{% block footer_content %}
+{% endblock footer_content %}
+
+
+{% block js_body %}
+    <script type="text/javascript" src="{{ get_url(path="js/documents_single.js") | safe }}"></script>
+{% endblock js_body %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ config.title }}
+{% endblock title %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{{ get_url(path="css/index.css") | safe }}">
+{% endblock css %}
+
+
+{% block content_nav %}
+{% endblock content_nav %}
+
+
+{% block prev_btn %}
+{% endblock prev_btn %}
+
+
+{% block content_title%}
+    {{ section.title }}
+{% endblock content_title%}
+
+{% block content_body %}
+    {{ section.content | safe }}
+{% endblock content_body %}
+
+
+{% block next_btn %}
+{% endblock next_btn %}
+
+
+{% block content_aside %}
+{% endblock content_aside %}
+
+{% block footer_content %}
+{% endblock footer_content %}

@@ -1,0 +1,369 @@
+@import "reset";
+@import "common";
+
+$header_height: map-deep-get($height-map, pc, header_content);
+
+#header_nav_check {
+  position: absolute;
+  left: -50vw;
+}
+
+.grid-container {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  // prettier-ignore
+  grid-template:
+    "header    header    header    header    header    " #{$header_height}
+    "con_nav   prev_btn  con_body  next_btn  con_aside " 1fr
+    "footer    footer    footer    footer    footer    " 0
+    / 0 0 1fr 0 0;
+  .header_content {
+    background: map-deep-get($gradient-color-map, main);
+    grid-area: header;
+    display: grid;
+    // prettier-ignore
+    grid-template:
+      "header_title header_nav" #{$header_height}
+      / 1fr 1fr;
+    .header_title {
+      grid-area: header_title;
+      display: flex;
+      align-items: center;
+      font-size: map-deep-get($font-size-map, pc, header_title);
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .header_nav {
+      grid-area: header_nav;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      .header_nav_list {
+        padding-left: 0;
+        height: $header_height;
+        display: grid;
+        grid-template:
+          "... .... ... ..... ... ......... ... .... ..." 1fr
+          "... home ... about ... documents ... blog ..." 1fr
+          "... .... ... ..... ... ......... ... .... ..." 1fr
+          /1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        list-style: none;
+        li {
+          font-size: map-deep-get($font-size-map, pc, header_nav_list_li);
+          font-weight: bold;
+        }
+        .header_nav_list_home a,
+        .header_nav_list_documents a {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          cursor: pointer;
+        }
+        .header_nav_list_home a:hover,
+        .header_nav_list_documents a:hover {
+          text-decoration: underline;
+        }
+        .header_nav_list_home {
+          grid-area: home;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .header_nav_list_about {
+          grid-area: about;
+          text-align: center;
+          text-decoration: line-through;
+          &::before {
+            display: inline-block;
+            content: "工事中";
+          }
+        }
+        .header_nav_list_documents {
+          grid-area: documents;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .header_nav_list_blog {
+          grid-area: blog;
+          text-align: center;
+          text-decoration: line-through;
+          &::before {
+            display: inline-block;
+            content: "工事中";
+          }
+        }
+      }
+    }
+  }
+  .content_nav {
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    grid-area: con_nav;
+    border-right: 1px solid rgba(black, 0.1);
+  }
+  .prev_btn {
+    position: sticky;
+    top: 0;
+    grid-area: prev_btn;
+    border-right: 1px solid rgba(black, 0.1);
+  }
+  .content_body {
+    position: sticky;
+    top: 0;
+    overflow: auto;
+    grid-area: con_body;
+    .content_inside {
+      margin-top: 2rem;
+      margin-bottom: 6rem;
+      ul,
+      ol {
+        margin-left: 2.5rem;
+        li {
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      img {
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 20px;
+        max-width: 99%;
+        max-height: 60vh;
+      }
+
+      h1 {
+        font-size: map-deep-get($font-size-map, pc, h1);
+        margin: map-deep-get($font-size-map, pc, h1) auto;
+        background: map-deep-get($gradient-color-map, h1);
+      }
+
+      h2 {
+        font-size: map-deep-get($font-size-map, pc, h2);
+        margin: map-deep-get($font-size-map, pc, h2) auto;
+        border-bottom: solid 2px rgba(0, 0, 0, 0.1);
+      }
+
+      h3 {
+        font-size: map-deep-get($font-size-map, pc, h3);
+        margin: map-deep-get($font-size-map, pc, h3) auto;
+        border-bottom: solid 2px rgba(0, 0, 0, 0.1);
+      }
+
+      h4 {
+        font-size: map-deep-get($font-size-map, pc, h4);
+        margin: map-deep-get($font-size-map, pc, h4) auto;
+      }
+
+      h5 {
+        font-size: map-deep-get($font-size-map, pc, h5);
+        margin: map-deep-get($font-size-map, pc, h5) auto;
+      }
+
+      h6 {
+        font-size: map-deep-get($font-size-map, pc, h6);
+        margin: map-deep-get($font-size-map, pc, h6) auto;
+      }
+
+      a {
+        color: map-deep-get($color-map, link);
+        &:hover {
+          border-bottom: 1px solid blue;
+        }
+      }
+
+      .content_title {
+        font-size: map-deep-get($font-size-map, pc, content_title);
+        background: white;
+      }
+    }
+  }
+  .next_btn {
+    position: sticky;
+    top: 0;
+    grid-area: next_btn;
+    border-left: 1px solid rgba(black, 0.1);
+  }
+  .content_aside {
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    grid-area: con_aside;
+    border-left: 1px solid rgba(black, 0.1);
+  }
+  .footer_content {
+    grid-area: footer;
+  }
+}
+
+// タブレット用（1024px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, tablet)) {
+  $header_height: map-deep-get($height-map, tablet, header_content);
+  .grid-container {
+    // prettier-ignore
+    grid-template:
+      "header    header    header    header    header    " #{$header_height}
+      "con_nav   prev_btn  con_body  next_btn  con_aside " 1fr
+      "footer    footer    footer    footer    footer    " 0
+      / 0 0 1fr 0 0;
+    .header_content {
+      grid-template:
+        "header_title" calc(#{$header_height} / 2)
+        "header_nav" calc(#{$header_height} / 2)
+        / 1fr;
+      .header_nav {
+        .header_nav_list {
+          // prettier-ignore
+          grid-template:
+          "... .... ... ..... ... ......... ... .... ..." 0
+          "... home ... about ... documents ... blog ..." calc(#{$header_height} / 2)
+          "... .... ... ..... ... ......... ... .... ..." 0
+          /1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        }
+      }
+    }
+  }
+}
+// スマホ用（599px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, smartphone)) {
+  $header_height: map-deep-get($height-map, smartphone, header_content);
+  $header_title_width: calc(
+    #{map-deep-get($width-map, smartphone, min-width)} - 1px - #{map-deep-get(
+        $width-map,
+        smartphone,
+        header_nav_open_btn
+      )}
+  );
+  $header_nav_list_height: calc(
+    100% - #{map-deep-get($height-map, smartphone, header_nav_open_btn)}
+  );
+
+  #header_nav_check:checked ~ .grid-container > .header_content > .header_nav {
+    transform: none;
+  }
+  .grid-container {
+    grid-template:
+      "header    header    header    header    header    " #{$header_height}
+      "con_nav   prev_btn  con_body  next_btn  con_aside " 1fr
+      "footer    footer    footer    footer    footer    " 0
+      / 0 0 1fr 0 0;
+    .header_content {
+      grid-template:
+        "header_title" #{$header_height}
+        / #{$header_title_width};
+      .header_title {
+        a {
+          pointer-events: none;
+          display: block;
+          font-size: map-deep-get($font-size-map, smartphone, header_title);
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .header_nav {
+        position: fixed;
+        z-index: map-deep-get($z-index-map, "header_nav");
+        top: 0;
+        left: 0;
+        transform: translateY(-100%);
+        height: 100vh;
+        width: 100vw;
+        transition: all 0.2s;
+        background: map-deep-get($color-map, main);
+        opacity: 0.95;
+        display: flex;
+        align-items: flex-end;
+        .header_nav_list {
+          width: 100%;
+          height: $header_nav_list_height;
+          padding-left: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          li {
+            font-size: map-deep-get(
+              $font-size-map,
+              smartphone,
+              header_nav_list_li
+            );
+          }
+        }
+      }
+    }
+    .content_body .content_inside {
+      h1 {
+        font-size: map-deep-get($font-size-map, smartphone, h1);
+      }
+      h2 {
+        font-size: map-deep-get($font-size-map, smartphone, h2);
+      }
+      h3 {
+        font-size: map-deep-get($font-size-map, smartphone, h3);
+      }
+      h4 {
+        font-size: map-deep-get($font-size-map, smartphone, h4);
+      }
+      h5 {
+        font-size: map-deep-get($font-size-map, smartphone, h5);
+      }
+      h6 {
+        font-size: map-deep-get($font-size-map, smartphone, h6);
+      }
+      .content_title {
+        font-size: map-deep-get($font-size-map, smartphone, content_title);
+      }
+    }
+  }
+  .header_nav_open_btn {
+    position: fixed;
+    z-index: map-deep-get($z-index-map, header_nav_open_btn);
+    top: 0;
+    right: 0;
+    display: flex;
+    height: map-deep-get($height-map, smartphone, header_nav_open_btn);
+    width: map-deep-get($width-map, smartphone, header_nav_open_btn);
+    justify-content: center;
+    align-items: center;
+    span,
+    span::before,
+    span::after {
+      content: "";
+      display: block;
+      height: 2px;
+      width: 25px;
+      border-radius: 2px;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+    }
+    span::before {
+      transition: all 0.2s;
+      bottom: 8px;
+    }
+    span::after {
+      transition: all 0.2s;
+      top: 8px;
+    }
+  }
+  #header_nav_check:checked ~ .header_nav_open_btn {
+    position: absolute;
+    right: 0;
+    span {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    span::before {
+      transition: all 0.2s;
+      bottom: 0px;
+      transform: rotate(45deg);
+    }
+    span::after {
+      transition: all 0.2s;
+      top: 0px;
+      transform: rotate(-45deg);
+    }
+  }
+}

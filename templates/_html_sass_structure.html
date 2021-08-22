@@ -1,0 +1,115 @@
+{# block list for template html
+
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ config.title }}
+{% endblock title %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{{ get_url(path="index.css") | safe }}">
+{% endblock css %}
+
+
+{% block body%}
+{% endblock body%}
+
+
+{% block content_title %}
+{% endblock content_title %}
+
+
+{% block content_nav %}
+{% endblock content_nav %}
+
+
+{% block prev_btn %}
+{% endblock prev_btn %}
+
+
+{% block content_body %}
+    {{ section.content | safe }}
+{% endblock content_body %}
+
+
+{% block next_btn %}
+{% endblock next_btn %}
+
+
+{% block content_aside %}
+{% endblock content_aside %}
+
+{% block footer_content %}
+{% endblock footer_content %}
+
+
+{% block js_body %}
+{% endblock js_body %}
+
+#}
+
+
+
+
+{# class list for sass
+
+body
+
+    <input type="checkbox" id="header_nav_check">
+    <label for="header_nav_check" class="header_nav_open"><span></span></label>
+
+    --------↓documents_sectionとdocuments_pageのみ--------
+
+    <input type="checkbox" id="content_nav_check">
+    <label for="content_nav_check" class="content_nav_open_btn"><span></span></label>
+    <input type="checkbox" id="content_aside_check">
+    <label for="content_aside_check" class="content_aside_open_btn"><span></span></label>
+
+    --------↑documents_sectionとdocuments_pageのみ--------
+
+    grid-container
+
+        header header_content
+            div header_title
+            nav header_nav
+                ul header_nav_list
+                    li header_nav_list_home
+                    li header_nav_list_about
+                    li header_nav_list_documents
+                    li header_nav_list_blog
+
+        div content_title
+        nav content_nav
+        div prev_btn
+            a back_to_top
+            div btn_background
+        main content_body
+            h1 content_title
+        div next_btn
+            a back_to_top
+            div btn_background
+        aside content_aside
+
+        footer footer_content
+
+ #}
+
+
+
+{# test code
+
+
+    {% for page_obj in section.pages %}
+        {{ get_url(path=page_obj.path) }}<br/>
+        {% for key, value in page_obj%}
+            {{ key }}<span> , </span>
+        {% endfor %}
+    {% endfor %} 
+
+    {% for key, value in page %}
+        {{ key }}<span> , </span>
+    {% endfor %}
+
+#}

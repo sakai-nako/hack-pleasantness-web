@@ -1,0 +1,16 @@
+{
+  "name": "hack-pleasantness-web",
+  "version": "1.0.0",
+  "main": "index.html",
+  "author": "sakai-nako",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "prettier": "^2.3.2"
+  }
+}

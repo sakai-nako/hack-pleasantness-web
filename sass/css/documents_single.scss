@@ -1,0 +1,433 @@
+@import "base";
+
+$header_height: map-deep-get($height-map, pc, header_content);
+$content_nav_width: map-deep-get($width-map, pc, documents_single_content_nav);
+$prev_btn_width: map-deep-get($width-map, pc, documents_single_prev_btn);
+$content_body_width: map-deep-get(
+  $width-map,
+  pc,
+  documents_single_content_body
+);
+$next_btn_width: map-deep-get($width-map, pc, documents_single_next_btn);
+$content_aside_width: map-deep-get(
+  $width-map,
+  pc,
+  documents_single_content_aside
+);
+
+.grid-container {
+  // prettier-ignore
+  grid-template:
+    "header  header   header    header    header    header    header" #{$header_height}
+    "......  con_nav  prev_btn  con_body  next_btn  con_aside ......" 1fr
+    "......  footer   footer    footer    footer    footer    ......" 0
+    / 0 #{$content_nav_width} #{$prev_btn_width} #{$content_body_width} #{$next_btn_width} #{$content_aside_width} 0;
+  .content_nav .content_nav_close_btn,
+  .content_aside .content_aside_close_btn {
+    display: none;
+  }
+  .content_nav {
+    @include reset_ul_ol;
+    .nav_title {
+      cursor: pointer;
+      display: block;
+      font-weight: bold;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+    }
+    ul {
+      margin-left: 0.5rem;
+      li {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .content_nav_toc_li.active,
+      .content_nav_toc_l.active > details > summary {
+        background: rgba(map-deep-get($color-map, sub), 0.2);
+      }
+    }
+    summary {
+      display: block;
+    }
+    summary::-webkit-details-marker {
+      display: ruby-base;
+    }
+    summary:hover {
+      cursor: pointer;
+    }
+    summary:after {
+      content: url("../img/detail_arrow_close.png");
+    }
+    details[open] > summary:after {
+      content: url("../img/detail_arrow_open.png");
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+  .content_aside {
+    @include reset_ul_ol;
+    .aside_nav_title {
+      cursor: pointer;
+      display: block;
+      font-weight: bold;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+    }
+    ul {
+      margin-left: 0.5rem;
+      li {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .aside_toc_li.active,
+      .aside_toc_l.active > details > summary {
+        background: rgba(map-deep-get($color-map, sub), 0.2);
+      }
+    }
+    summary {
+      display: block;
+    }
+    summary::-webkit-details-marker {
+      display: ruby-base;
+    }
+    summary:hover {
+      cursor: pointer;
+    }
+    summary:after {
+      content: url("../img/detail_arrow_close.png");
+    }
+    details[open] > summary:after {
+      content: url("../img/detail_arrow_open.png");
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+  .prev_btn,
+  .next_btn {
+    @include back_to_top_btn(pc);
+    .btn_background {
+      position: absolute;
+      z-index: map-deep-get($z-index-map, prev_next_btn_background);
+      width: map-deep-get($width-map, pc, prev_next_btn_background);
+      height: map-deep-get($height-map, pc, prev_next_btn_background);
+      background: rgba(map-deep-get($color-map, sub), 0.05);
+      &:hover {
+        &.enable {
+          cursor: pointer;
+          font-size: 1.5rem;
+          font-weight: bold;
+          background: rgba(map-deep-get($color-map, sub), 0.1);
+        }
+        &.disable {
+          cursor: default;
+        }
+      }
+      .jump_to {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: map-deep-get($width-map, pc, prev_next_btn_jump_to);
+        height: map-deep-get($height-map, pc, prev_next_btn_jump_to);
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+#content_nav_check,
+#content_aside_check {
+  position: absolute;
+  left: -50vw;
+}
+
+// タブレット用（1024px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, tablet)) {
+  $header_height: map-deep-get($height-map, tablet, header_content);
+  $prev_next_btn_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_prev_next_btn
+  );
+  $prev_next_btn_height: map-deep-get(
+    $height-map,
+    tablet,
+    documents_single_prev_next_btn
+  );
+  $content_nav_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_content_nav
+  );
+  $content_aside_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_content_aside
+  );
+  $content_nav_close_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_content_nav_close
+  );
+  $content_aside_close_width: map-deep-get(
+    $width-map,
+    tablet,
+    documents_single_content_aside_close
+  );
+
+  .grid-container {
+    // prettier-ignore
+    grid-template:
+    "header  header   header    header    header    header" #{$header_height}
+    "......  con_nav  con_body  con_body  con_aside ......" 1fr
+    "......  con_nav  prev_btn  next_btn  con_aside ......" #{$prev_next_btn_height}
+    "......  footer   footer    footer    footer    ......" 0
+    / 0 #{$content_nav_width} #{$prev_next_btn_width} #{$prev_next_btn_width} #{$content_aside_width} 0;
+
+    .prev_btn .back_to_top,
+    .next_btn .back_to_top {
+      display: none;
+    }
+
+    .content_nav,
+    .content_aside {
+      li {
+        font-size: map-deep-get($font-size-map, tablet, content_nav_aside_li);
+      }
+    }
+
+    .content_nav {
+      width: map-deep-get(
+        $width-map,
+        tablet,
+        documents_single_content_nav_open
+      );
+      .nav_title {
+        padding-top: map-deep-get(
+          $height-map,
+          tablet,
+          documents_single_content_nav_open_btn
+        );
+      }
+      .content_nav_open_btn {
+        width: map-deep-get(
+          $width-map,
+          tablet,
+          documents_single_content_nav_open_btn
+        );
+        height: map-deep-get(
+          $height-map,
+          tablet,
+          documents_single_content_nav_open_btn
+        );
+        position: absolute;
+        inset: 0 5px auto auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span,
+        span::before {
+          display: block;
+        }
+        span::before {
+          font-size: 1.5rem;
+          content: "×";
+        }
+        span:active {
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .content_aside {
+      width: map-deep-get(
+        $width-map,
+        tablet,
+        documents_single_content_aside_open
+      );
+      .aside_nav_title {
+        padding-top: map-deep-get(
+          $height-map,
+          tablet,
+          documents_single_content_aside_open_btn
+        );
+      }
+      .content_aside_open_btn {
+        width: map-deep-get(
+          $width-map,
+          tablet,
+          documents_single_content_aside_open_btn
+        );
+        height: map-deep-get(
+          $height-map,
+          tablet,
+          documents_single_content_aside_open_btn
+        );
+        position: absolute;
+        inset: 0 5px auto auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span,
+        span::before {
+          display: block;
+        }
+        span::before {
+          font-size: 1.5rem;
+          content: "×";
+        }
+        span:active {
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  #content_nav_check:not(:checked) {
+    & ~ .grid-container .content_nav {
+      width: $content_nav_close_width;
+      overflow: hidden;
+      * {
+        transform: translateX(-100vw);
+      }
+      .content_nav_open_btn {
+        transform: unset;
+        span {
+          transform: unset;
+          border: 1px solid rgba(black, 0.2);
+          background: map-deep-get($gradient-color-map, h1);
+        }
+        span::before {
+          font-size: 1rem;
+          content: "TOC1";
+        }
+      }
+    }
+  }
+
+  #content_aside_check:not(:checked) {
+    & ~ .grid-container .content_aside {
+      width: $content_aside_close_width;
+      overflow: hidden;
+      * {
+        transform: translateX(200vw);
+      }
+      .content_aside_open_btn {
+        transform: unset;
+        span {
+          transform: unset;
+          border: 1px solid rgba(black, 0.2);
+          background: map-deep-get($gradient-color-map, h1);
+        }
+        span::before {
+          font-size: 1rem;
+          content: "TOC2";
+        }
+      }
+    }
+  }
+}
+
+// スマホ用（599px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, smartphone)) {
+  $header_height: map-deep-get($height-map, smartphone, header_content);
+  $prev_next_btn_width: map-deep-get(
+    $width-map,
+    smartphone,
+    documents_single_prev_next_btn
+  );
+  $prev_next_btn_height: map-deep-get(
+    $height-map,
+    smartphone,
+    documents_single_prev_next_btn
+  );
+  $content_nav_aside_height: map-deep-get(
+    $height-map,
+    smartphone,
+    documents_single_content_nav_aside_height
+  );
+
+  .grid-container {
+    // prettier-ignore
+    grid-template:
+    "header    header   " #{$header_height}
+    "con_nav   con_aside" #{$content_nav_aside_height}
+    "con_body  con_body " 1fr
+    "prev_btn  next_btn " #{$prev_next_btn_height}
+    "footer    footer   " 0
+    / #{$prev_next_btn_width} #{$prev_next_btn_width};
+
+    .content_nav,
+    .content_aside {
+      border: none;
+    }
+
+    .content_nav .content_nav_open_btn span:hover,
+    .content_aside .content_aside_open_btn span:hover {
+      font-weight: normal;
+    }
+
+    .content_body {
+      border-top: 2px solid rgba(black, 0.2);
+    }
+  }
+
+  #content_nav_check:checked ~ .grid-container .content_nav {
+    position: fixed;
+    z-index: map-deep-get($z-index-map, content_nav);
+    top: $header_height;
+    width: 100vw;
+    height: calc(100vh - #{$header_height});
+    overflow-y: auto;
+    background: white;
+  }
+
+  #content_aside_check:checked ~ .grid-container .content_aside {
+    position: fixed;
+    z-index: map-deep-get($z-index-map, content_aside);
+    top: $header_height;
+    width: 100vw;
+    height: calc(100vh - #{$header_height});
+    overflow-y: auto;
+    background: white;
+  }
+
+  #content_nav_check:not(:checked) {
+    & ~ .grid-container .content_nav {
+      width: 100%;
+      .content_nav_open_btn {
+        inset: 0 auto auto 0;
+        width: 30px;
+        height: 30px;
+        border-right: 1px solid rgba(black, 0.2);
+        span,
+        span::before {
+          font-size: 0.7rem;
+          border: none;
+        }
+      }
+    }
+  }
+
+  #content_aside_check:not(:checked) {
+    & ~ .grid-container .content_aside {
+      width: 100%;
+      .content_aside_open_btn {
+        inset: 0 0 auto auto;
+        width: 30px;
+        height: 30px;
+        border-left: 1px solid rgba(black, 0.2);
+        span,
+        span::before {
+          font-size: 0.7rem;
+          border: none;
+        }
+      }
+    }
+  }
+}

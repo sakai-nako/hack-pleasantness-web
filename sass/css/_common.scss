@@ -1,0 +1,182 @@
+// Maps---------------------------------------------------------------
+
+// breakpoint
+$breakpoint-map: (
+  tablet: 1024px,
+  smartphone: 599px,
+);
+
+// color
+$color-map: (
+  main: rgb(255, 146, 61),
+  sub: rgb(255, 0, 255),
+  font: black,
+  link: blue,
+);
+
+// gradient-color
+$gradient-color-map: (
+  main: linear-gradient(transparent 0%, rgb(255, 146, 61) 100%),
+  h1: linear-gradient(transparent 0%, rgb(255, 146, 61) 150%),
+);
+
+// z-index
+$z-index-map: (
+  header_nav: 10,
+  header_nav_open_btn: 20,
+  back_to_top_btn: 1,
+  prev_next_btn_background: -1,
+  content_nav: 5,
+  content_aside: 5,
+);
+
+// font-size
+$font-size-map: (
+  pc: (
+    h1: 1.7rem,
+    h2: 1.6rem,
+    h3: 1.5rem,
+    h4: 1.4rem,
+    h5: 1.3rem,
+    h6: 1.2rem,
+    header_title: 2rem,
+    header_nav_list_li: 0.8rem,
+    content_title: 1.9rem,
+  ),
+  tablet: (
+    content_nav_aside_li: 0.8rem,
+  ),
+  smartphone: (
+    h1: 1.4rem,
+    h2: 1.3rem,
+    h3: 1.2rem,
+    h4: 1.1rem,
+    h5: 1rem,
+    h6: 1rem,
+    header_title: 1.4rem,
+    header_nav_list_li: 1rem,
+    content_title: 1.4rem,
+  ),
+);
+
+// inset (top right bottom left)
+$inset-map: (
+  pc: (
+    back_to_top_btn: auto auto 10px 10px,
+    back_to_top_btn_hover: auto auto 5px 5px,
+  ),
+  tablet: (
+    back_to_top_btn: auto auto 10px 10px,
+    back_to_top_btn_hover: auto auto 5px 5px,
+  ),
+  smartphone: (),
+);
+
+// width
+$width-map: (
+  pc: (
+    back_to_top_btn: 40px,
+    back_to_top_btn_hover: 50px,
+    prev_next_btn_background: 100%,
+    prev_next_btn_jump_to: 100%,
+    documents_single_content_nav: minmax(150px, 300px),
+    documents_single_prev_btn: 60px,
+    documents_single_content_body: minmax(600px, 1fr),
+    documents_single_next_btn: 60px,
+    documents_single_content_aside: minmax(150px, 300px),
+  ),
+  tablet: (
+    back_to_top_btn: 40px,
+    back_to_top_btn_hover: 50px,
+    documents_single_prev_next_btn: 1fr,
+    documents_single_content_nav: auto,
+    documents_single_content_aside: auto,
+    documents_single_content_nav_open: 250px,
+    documents_single_content_aside_open: 250px,
+    documents_single_content_nav_close: 50px,
+    documents_single_content_aside_close: 50px,
+    documents_single_content_nav_open_btn: 40px,
+    documents_single_content_aside_open_btn: 40px,
+  ),
+  smartphone: (
+    min-width: 320px,
+    header_nav_open_btn: 40px,
+    documents_single_prev_next_btn: 1fr,
+  ),
+);
+
+// height
+$height-map: (
+  pc: (
+    header_content: 85px,
+    back_to_top_btn: 40px,
+    back_to_top_btn_hover: 50px,
+    prev_next_btn_background: 100%,
+    prev_next_btn_jump_to: 100%,
+  ),
+  tablet: (
+    header_content: 100px,
+    back_to_top_btn: 40px,
+    back_to_top_btn_hover: 50px,
+    documents_single_prev_next_btn: 40px,
+    documents_single_content_nav_open_btn: 40px,
+    documents_single_content_aside_open_btn: 40px,
+  ),
+  smartphone: (
+    header_content: 70px,
+    header_nav_open_btn: 40px,
+    documents_single_prev_next_btn: 30px,
+    documents_single_content_nav_aside_height: 30px,
+  ),
+);
+
+// -------------------------------------------------------------------
+
+// Common Mixin-------------------------------------------------------
+
+@mixin reset_ul_ol {
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+@mixin back_to_top_btn($device) {
+  .back_to_top {
+    display: block;
+    position: absolute;
+    z-index: map-deep-get($z-index-map, back_to_top_btn);
+    inset: map-deep-get($inset-map, $device, back_to_top_btn);
+    width: map-deep-get($width-map, $device, back_to_top_btn);
+    height: map-deep-get($height-map, $device, back_to_top_btn);
+    content: url("../img/back_to_top.png");
+    &:hover {
+      cursor: pointer;
+      inset: map-deep-get($inset-map, $device, back_to_top_btn_hover);
+      width: map-deep-get($width-map, $device, back_to_top_btn_hover);
+      height: map-deep-get($height-map, $device, back_to_top_btn_hover);
+    }
+  }
+}
+
+// -------------------------------------------------------------------
+
+// Common Functions---------------------------------------------------
+
+@function map-deep-get($map, $keys...) {
+  $scope: $map;
+  $i: 1;
+  @while (type-of($scope) == map) and ($i <= length($keys)) {
+    $scope: map-get($scope, nth($keys, $i));
+    $i: $i + 1;
+  }
+  @return $scope;
+}
+
+// -------------------------------------------------------------------

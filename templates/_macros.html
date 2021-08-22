@@ -1,0 +1,341 @@
+{# ルートセクションのパスを返す #}
+{%- macro get_root_section_path(section_or_page_obj) -%}
+    {%- set return = "" -%}
+    {%- if section_or_page_obj.ancestors | length < 3 -%}
+        {%- set_global return = section_or_page_obj.relative_path -%}
+    {%- else -%}
+        {%- set_global return = section_or_page_obj.ancestors | nth(n=2) -%}
+    {%- endif -%}
+    
+    {{ return }}
+
+{%- endmacro -%}
+
+{# 親セクションのパスを返す #}
+{%- macro get_parent_section_path(section_or_page_obj) -%}
+    {{ section_or_page_obj.ancestors | last }}
+{%- endmacro get_parent_section_path -%}
+
+{# 同階層の前のセクションのパスを返す #}
+{%- macro get_same_depth_prev_section_path(section_obj) -%}
+    {%- set parent_section_obj = get_section(
+        path=self::get_parent_section_path(section_or_page_obj=section_obj)
+    ) -%}
+    {%- set return = "empty" -%}
+
+    {%- for brother_section_path in parent_section_obj.subsections -%}
+        {%- set brother_section_obj = get_section(path=brother_section_path) -%}
+        {%- if loop.index != 1 and section_obj.permalink == brother_section_obj.permalink -%}
+            {%- set prev_section_path = parent_section_obj.subsections | nth(n=loop.index - 2) -%}
+            {%- set_global return = prev_section_path -%}
+            {% break %}
+        {%- endif -%}
+    {%- endfor -%}
+
+    {{ return }}
+
+{%- endmacro get_same_depth_prev_section_path -%}
+
+{# セクションを受け取り、そのセクションの最後のサブセクションのパスを返す #}
+{%- macro get_last_subsection_path(section_obj) -%}
+    {%- if section_obj.subsections -%}
+        {%- set last_subsection_obj = get_section(
+            path=section_obj.subsections | last
+        ) -%}
+        {{ self::get_last_subsection_path(section_obj=last_subsection_obj) }}
+    {%- else -%}
+        {{ section_obj.relative_path }}
+    {%- endif -%}
+{%- endmacro get_last_subsection_path -%}
+
+{# 
+    get_prev_path_for_section  セクションでprev_btnを押した時のパスを取得する
+    ★1 自セクションがルートセクション？
+        ・はい
+            ：empty
+        ・いいえ
+            ★2 同階層に前のセクションが
+                ・ある
+                    ★3 同階層の前のセクションにサブセクションが
+                        ・ある
+                            ：★3に戻る
+                        ・ない
+                            ★4 同階層の前のセクションの最後のサブセクションにページが
+                                ・ある
+                                    ：同階層の前のセクションの最後のサブセクションの最後のページ
+                                ・ない
+                                    ：同階層の前のセクションの最後のサブセクション
+                ・ない
+                    ★親セクションがルートセクション？
+                    （自セクションがルートセクションでない時点で、親セクションは存在する）
+                        ・はい
+                            ：empty
+                        ・いいえ
+                            ：親セクション
+#}
+{%- macro get_prev_path_for_section(section_obj) -%}
+
+    {%- set root_section_obj = get_section(
+        path=self::get_root_section_path(section_or_page_obj=section_obj)
+    ) -%}
+    {%- set parent_section_obj = get_section(
+        path=self::get_parent_section_path(section_or_page_obj=section_obj)
+    ) -%}
+    {%- set return = "" -%}
+
+    {%- if section_obj.ancestors | length < 3 -%}
+        {%- set_global return = "empty" -%}
+    {%- elif self::get_same_depth_prev_section_path(section_obj=section_obj) != "empty" -%}
+        {%- set tmp_prev_section = get_section(
+            path=self::get_same_depth_prev_section_path(section_obj=section_obj)
+        ) -%}
+        {%- set prev_section = get_section(
+            path=self::get_last_subsection_path(section_obj=tmp_prev_section)
+        ) -%}
+
+        {%- if prev_section.pages -%}
+            {%- set prev_section_last_page = prev_section.pages | last -%}
+            {%- set_global return = prev_section_last_page.permalink -%}
+        {%- else -%}
+            {%- set_global return = prev_section.permalink -%}
+        {%- endif -%}
+    {%- elif root_section_obj.permalink == parent_section_obj.permalink -%}
+        {%- set_global return = "empty" -%}
+    {%- else -%}
+        {%- set_global return = parent_section_obj.permalink -%}
+    {%- endif -%}
+
+    {{ return }}
+
+{%- endmacro get_prev_path_for_section -%}
+
+{# 
+    セクションを受け取り、そのセクションの後のセクションのパスを返す。
+    見つからなかった場合は、"empty"を返す。
+#}
+{%- macro get_next_section_path_for_section(section_obj) -%}
+
+    {%- set return = "" -%}
+
+    {%- if section_obj.ancestors | length > 2 -%}
+        {%- set parent_section_obj = get_section(
+            path=self::get_parent_section_path(section_or_page_obj=section_obj)
+         ) -%}
+
+        {%- for parent_subsection_path in parent_section_obj.subsections -%}
+            {%- set parent_subsection_obj = get_section(
+                path=parent_subsection_path
+            ) -%}
+            {%- if parent_subsection_obj.permalink == section_obj.permalink -%}
+                {%- if parent_section_obj.subsections | nth(n=loop.index) -%}
+                    {%- set_global return = parent_section_obj.subsections | nth(n=loop.index) -%}
+                {%- else -%}
+                    {{ self::get_next_section_path_for_section(section_obj=parent_section_obj) }}
+                {%- endif -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+    {%- else -%}
+        {%- set_global return = "empty" -%}
+    {%- endif -%}
+
+    {{ return }}
+
+{%- endmacro get_next_section_path_for_section -%}
+
+{# 
+    get_next_link_for_section  セクションでnext_btnを押した時のリンク先を取得する
+    ★1 自セクションがルートセクション？
+        ・はい
+            ：自セクションのサブセクションの最初のセクション
+        ・いいえ
+            ★2 自セクションにページが
+                ・ある
+                    ：自セクションの最初のページ
+                ・ない
+                    ★3 自セクションにサブセクションが
+                        ・ある
+                            ：自セクションの最初のサブセクション
+                        ・ない
+                            ★4 同階層に後のセクションが
+                                ・ある
+                                    ：同階層の後のセクション
+                                ・ない
+                                    ★5 親セクションの同階層に親セクションの後のセクションが
+                                    ・ある
+                                        ：親セクションの同階層の後のセクション
+                                    ・ない
+                                        ：★5 に戻る
+                                        （ルートセクションまで遡っても後のセクションがなければempty）
+
+#}
+
+{%- macro get_next_link_for_section(section_obj) -%}
+    {%- set root_section_obj = get_section(
+        path=self::get_root_section_path(section_or_page_obj=section_obj)
+    ) -%}
+    {%- set parent_section_obj = get_section(
+        path=self::get_parent_section_path(section_or_page_obj=section_obj)
+    ) -%}
+    {%- set return = "" -%}
+
+    {%- if root_section_obj.permalink == section_obj.permalink 
+        and section_obj.subsections 
+    -%}
+        {%- set return_section_obj = get_section(
+            path=section_obj.subsections | first
+        ) -%}
+        {%- set_global return = return_section_obj.permalink -%}
+    {%- elif section_obj.pages -%}
+        {%- set return_page_obj = section_obj.pages | first -%}
+        {%- set_global return = return_page_obj.permalink -%}
+    {%- elif section_obj.subsections -%}
+        {%- set return_section_obj = get_section(
+            path=section_obj.subsections | first
+        ) -%}
+        {%- set_global return = return_section_obj.permalink -%}
+    {%- else -%}
+        {%- if self::get_next_section_path_for_section(section_obj=section_obj) != "empty" -%}
+            {%- set return_section_obj = get_section(
+                path=self::get_next_section_path_for_section(section_obj=section_obj)
+             ) -%}
+            {%- set_global return = return_section_obj.permalink -%}
+        {%- else -%}
+            {%- set_global return = "empty" -%}
+        {%- endif -%}
+    {%- endif -%}
+
+    {{ return }}
+
+{%- endmacro get_next_link_for_section -%}
+
+{# 
+    get_prev_path_for_page  ページでprev_btnを押した時のパスを取得する
+    ★lighterのページがある？
+        ・ある
+            ：lighterのページ
+        ・ない
+            ：親セクション
+#}
+{%- macro get_prev_path_for_page(page_obj) -%}
+    {%- set parent_section_obj = get_section(
+        path=self::get_parent_section_path(section_or_page_obj=page_obj)
+    ) -%}
+    {%- set return = "" -%}
+
+    {%- if page_obj.lighter -%}
+        {%- set_global return = page_obj.lighter.permalink -%}
+    {%- else -%}
+        {%- set_global return = parent_section_obj.permalink -%}
+    {%- endif -%}
+
+    {{ return }}
+{%- endmacro get_prev_path_for_section -%}
+
+{#
+    get_next_link_for_page  ページでnext_btnを押した時のリンク先を取得する
+    ★1 hevierのページがある？
+        ・ある
+            ：hevierのページ
+        ・ない
+            ★2 親セクションの同階層に親セクションの後のセクションが
+                ・ある
+                    ：親セクションの同階層の後のセクション
+                ・ない
+                    ：★2 に戻る
+                    （ルートセクションまで遡っても後のセクションがなければempty）
+#}
+
+{%- macro get_next_link_for_page(page_obj) -%}
+
+    {%- set return = "" -%}
+
+    {%- if page_obj.heavier -%}
+        {%- set_global return = page_obj.heavier.permalink -%}
+    {%- else -%}
+        {%- set parent_section_obj = get_section(
+            path=self::get_parent_section_path(section_or_page_obj=page_obj)
+        ) -%}
+        {%- if self::get_next_section_path_for_section(section_obj=parent_section_obj) != "empty" -%}
+            {%- set next_section_obj = get_section(
+                path=self::get_next_section_path_for_section(section_obj=parent_section_obj)
+            ) -%}
+            {%- set_global return = next_section_obj.permalink -%}
+        {%- else -%}
+            {%- set_global return = "empty" -%}
+        {%- endif -%}
+    {%- endif -%}
+
+    {{ return }}
+
+{%- endmacro get_next_link_for_page -%}
+
+{% macro make_aside_toc_details(toc_object,details_open="close",list_style="ul") %}
+    {% if toc_object.children %}
+        <li class="aside_toc_l {{ toc_object.id }}">
+            <details {{ details_open }}>
+                <summary>
+                    <a href="{{ toc_object.permalink }}"">{{ toc_object.title }}</a>
+                </summary>
+                <{{ list_style }}>
+                    {% for child in toc_object.children %}
+                        {{ self::make_aside_toc_details(
+                                toc_object=child,
+                                details_open=details_open,
+                                list_style=list_style
+                        )}}
+                    {% endfor %}
+                </{{ list_style }}>
+            </details>
+        </li>
+    {% else %}
+        <li class="aside_toc_li {{ toc_object.id }}">
+            <a href="{{ toc_object.permalink }}">{{ toc_object.title }}</a>
+        </li>
+    {% endif %}
+{% endmacro make_aside_toc_details %}
+
+{% macro make_section_details(section_object,details_open="close",list_style="ul") %}
+    {% if section_object.subsections %}
+        <li class="content_nav_toc_l {{ section_object.path }}{% if current_path == section_object.path %} active{% endif %}">
+            <details {{ details_open }}>
+                <summary>
+                    <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
+                </summary>
+                <{{ list_style }}>
+                    {% for subsection in section_object.subsections %}
+                        {% set subsection_obj = get_section(path=subsection) %}
+                        {{ self::make_section_details(
+                                section_object=subsection_obj,
+                                details_open=details_open,
+                                list_style=list_style
+                        )}}
+                    {% endfor %}
+                </{{ list_style }}>
+            </details>
+        </li>
+    {% else %}
+        {% if section_object.pages %}
+            <li class="content_nav_toc_l {{ section_object.path }}{% if current_path == section_object.path %} active{% endif %}">
+                <details {{ details_open }}>
+                    <summary>
+                        <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
+                    </summary>
+                    <{{ list_style }}>
+                        {% for section_page in section_object.pages %}
+                            <li class="content_nav_toc_li {{ section_page.title }}{% if current_path == section_page.path %} active{% endif %}">
+                                <a href="{{ section_page.permalink }}">
+                                    {{ section_page.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </{{ list_style }}>
+                </details>
+            </li>
+        {% else %}
+            <li class="content_nav_toc_li {{ section_object.title }}{% if current_path == section_object.path %} active{% endif %}">
+                <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
+            </li>
+        {% endif %}
+    {% endif %}
+{% endmacro make_section_details %}
