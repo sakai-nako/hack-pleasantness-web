@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://sakai-nako.github.io"
+base_url = "https://www.hack-pleasantness.net"
 
 # The site title and description; used in feeds by default.
 description = "This is test website"
