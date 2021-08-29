@@ -7,7 +7,16 @@ title = "趣味について"
 template = "documents_section.html"
 sort_by = "weight"
 weight = 3
-draft = true
 
 +++
 
+# その他趣味について
+
+- 読書（技術書多め）
+    - たまに [Note](https://note.com/nazono_obasan) の方に読書録記事を上げたりしています。
+- 女装
+    - 週に1回～月に1回くらいのペースで自室でやっております。
+- 音楽鑑賞
+- パカパカパッション
+    - パカパカパッションというゲーム自体の概要については、[Wikipediaの記事](https://ja.wikipedia.org/wiki/%E3%83%91%E3%82%AB%E3%83%91%E3%82%AB%E3%83%91%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3) を参照ください。
+    - 京都にはもう置いているゲーセンがないので、大阪とか東京に行く度に探してプレイしています。
