@@ -10,8 +10,6 @@ weight = 3
 
 +++
 
-# その他趣味について
-
 - 読書（技術書多め）
     - たまに [Note](https://note.com/nazono_obasan) の方に読書録記事を上げたりしています。
 - 女装
