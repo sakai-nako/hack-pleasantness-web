@@ -62,7 +62,8 @@ $header_height: map-deep-get($height-map, pc, header_content);
           cursor: pointer;
         }
         .header_nav_list_home a:hover,
-        .header_nav_list_documents a:hover {
+        .header_nav_list_documents a:hover,
+        .header_nav_list_about a:hover {
           text-decoration: underline;
         }
         .header_nav_list_home {
@@ -73,12 +74,9 @@ $header_height: map-deep-get($height-map, pc, header_content);
         }
         .header_nav_list_about {
           grid-area: about;
-          text-align: center;
-          text-decoration: line-through;
-          &::before {
-            display: inline-block;
-            content: "工事中";
-          }
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .header_nav_list_documents {
           grid-area: documents;
