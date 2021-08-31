@@ -3,6 +3,10 @@
 
 $header_height: map-deep-get($height-map, pc, header_content);
 
+body {
+  overflow: hidden;
+}
+
 #header_nav_check {
   position: absolute;
   left: -50vw;

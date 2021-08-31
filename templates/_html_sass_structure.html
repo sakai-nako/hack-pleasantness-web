@@ -4,9 +4,10 @@
 
 
 {% block title %}
-    {{ config.title }}
 {% endblock title %}
 
+{% block description %}
+{% endblock description%}
 
 {% block css %}
     <link rel="stylesheet" href="{{ get_url(path="index.css") | safe }}">

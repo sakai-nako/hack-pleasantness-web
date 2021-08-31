@@ -1,1 +1,92 @@
 @import "base";
+
+.grid-container {
+  .content_body {
+    .content_inside {
+      .index_page_information_container {
+        display: flex;
+        flex-direction: column-reverse;
+        .index_page_information {
+          .index_page_information_detail {
+            display: inline-block;
+            margin-bottom: 1rem;
+            summary {
+              display: block;
+            }
+            summary:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
+            summary:after {
+              content: url("../img/detail_arrow_close.png");
+            }
+            &[open] > summary:after {
+              content: url("../img/detail_arrow_open.png");
+            }
+            div {
+              margin-left: 1rem;
+            }
+          }
+        }
+      }
+      .index_page_profile_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        dl {
+          margin-left: 3rem;
+          display: flex;
+          flex-wrap: wrap;
+          max-width: 50vw;
+          dt {
+            width: 40%;
+            margin-bottom: 10px;
+            font-weight: bold;
+          }
+
+          dd {
+            width: 70%;
+            margin-bottom: 10px;
+          }
+        }
+        img {
+          display: block;
+          max-width: 50vw;
+        }
+      }
+    }
+  }
+}
+
+// タブレット用（1024px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, tablet)) {
+  .grid-container {
+    .content_body {
+      .content_inside {
+        .index_page_information_container {
+          .index_page_information {
+            .index_page_information_detail {
+              summary:hover {
+                cursor: initial;
+                text-decoration: initial;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// スマホ用（599px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, smartphone)) {
+  .grid-container {
+    .content_body {
+      .content_inside {
+        .index_page_profile_container {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

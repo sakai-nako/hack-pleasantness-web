@@ -2,7 +2,7 @@
 base_url = "https://www.hack-pleasantness.net"
 
 # The site title and description; used in feeds by default.
-description = "This is test website"
+description = "Nako's Knowledge Base - Personal Site"
 title = "Nako's Knowledge Base"
 
 # The default language; used in feeds.

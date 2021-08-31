@@ -5,6 +5,9 @@
     {{ config.title }}
 {% endblock title %}
 
+{% block description %}
+    {{ section.description }}
+{% endblock description%}
 
 {% block css %}
     <link rel="stylesheet" href="{{ get_url(path="css/index.css") | safe }}">
@@ -20,11 +23,49 @@
 
 
 {% block content_title%}
-    {{ section.title }}
 {% endblock content_title%}
 
 {% block content_body %}
     {{ section.content | safe }}
+    <h1>インフォメーション</h1>
+        <div class="index_page_information_container">
+            {% set info_section = get_section(path="information/_index.md") %}
+            {% for page in info_section.pages | reverse %}
+                <div class="index_page_information">
+                    <div class="index_page_information_date">
+                        {{ page.date | date(format="%Y/%m/%d") }}
+                    </div>
+                    <details class="index_page_information_detail">
+                        <summary>
+                            {{ page.title }}
+                        </summary>
+                        <div>
+                            {{ page.content | safe }}
+                        </div>
+                    </details>
+                </div>
+            {% endfor %}
+        </div>
+    <h1>プロフィール</h1>
+    <div class="index_page_profile_container">
+        <img src="img/profile_photo.jpg" alt="profile_photo">
+        <dl>
+            <dt>名前</dt>
+            <dd>酒井謎子(Sakai-nako)</dd>
+            <dt>出身</dt>
+            <dd>京都府</dd>
+            <dt>身体的性</dt>
+            <dd>男性</dd>
+            <dt>性的指向</dt>
+            <dd>女性が好き</dd>
+            <dt>性自認</dt>
+            <dd>Non-binary(Xジェンダー、MtX)</dd>
+            <dt>LGBTQ+</dt>
+            <dd>Q</dd>
+            <dt>職業</dt>
+            <dd>ウォーターフォールの中でもがくエンジニア</dd>
+        </dl>
+    </div>
 {% endblock content_body %}
 
 
