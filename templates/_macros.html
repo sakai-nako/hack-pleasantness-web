@@ -296,46 +296,48 @@
 {% endmacro make_aside_toc_details %}
 
 {% macro make_section_details(section_object,details_open="close",list_style="ul") %}
-    {% if section_object.subsections %}
-        <li class="content_nav_toc_l {{ section_object.path }}{% if current_path == section_object.path %} active{% endif %}">
-            <details {{ details_open }}>
-                <summary>
-                    <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
-                </summary>
-                <{{ list_style }}>
-                    {% for subsection in section_object.subsections %}
-                        {% set subsection_obj = get_section(path=subsection) %}
-                        {{ self::make_section_details(
-                                section_object=subsection_obj,
-                                details_open=details_open,
-                                list_style=list_style
-                        )}}
-                    {% endfor %}
-                </{{ list_style }}>
-            </details>
-        </li>
-    {% else %}
-        {% if section_object.pages %}
+    {% if section_object.title != "assets_section_no_render" %}
+        {% if section_object.subsections %}
             <li class="content_nav_toc_l {{ section_object.path }}{% if current_path == section_object.path %} active{% endif %}">
                 <details {{ details_open }}>
                     <summary>
                         <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
                     </summary>
                     <{{ list_style }}>
-                        {% for section_page in section_object.pages %}
-                            <li class="content_nav_toc_li {{ section_page.title }}{% if current_path == section_page.path %} active{% endif %}">
-                                <a href="{{ section_page.permalink }}">
-                                    {{ section_page.title }}
-                                </a>
-                            </li>
+                        {% for subsection in section_object.subsections %}
+                            {% set subsection_obj = get_section(path=subsection) %}
+                            {{ self::make_section_details(
+                                    section_object=subsection_obj,
+                                    details_open=details_open,
+                                    list_style=list_style
+                            )}}
                         {% endfor %}
                     </{{ list_style }}>
                 </details>
             </li>
         {% else %}
-            <li class="content_nav_toc_li {{ section_object.title }}{% if current_path == section_object.path %} active{% endif %}">
-                <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
-            </li>
+            {% if section_object.pages %}
+                <li class="content_nav_toc_l {{ section_object.path }}{% if current_path == section_object.path %} active{% endif %}">
+                    <details {{ details_open }}>
+                        <summary>
+                            <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
+                        </summary>
+                        <{{ list_style }}>
+                            {% for section_page in section_object.pages %}
+                                <li class="content_nav_toc_li {{ section_page.title }}{% if current_path == section_page.path %} active{% endif %}">
+                                    <a href="{{ section_page.permalink }}">
+                                        {{ section_page.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </{{ list_style }}>
+                    </details>
+                </li>
+            {% else %}
+                <li class="content_nav_toc_li {{ section_object.title }}{% if current_path == section_object.path %} active{% endif %}">
+                    <a href="{{ section_object.permalink }}">{{ section_object.title }}</a>
+                </li>
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endmacro make_section_details %}
