@@ -1,7 +1,7 @@
 {# ルートセクションのパスを返す #}
-{%- macro get_root_section_path(section_or_page_obj) -%}
+{%- macro get_root_section_path(section_or_page_obj, ancestor_length=3) -%}
     {%- set return = "" -%}
-    {%- if section_or_page_obj.ancestors | length < 3 -%}
+    {%- if section_or_page_obj.ancestors | length < ancestor_length -%}
         {%- set_global return = section_or_page_obj.relative_path -%}
     {%- else -%}
         {%- set_global return = section_or_page_obj.ancestors | nth(n=2) -%}
@@ -97,7 +97,11 @@
             {%- set prev_section_last_page = prev_section.pages | last -%}
             {%- set_global return = prev_section_last_page.permalink -%}
         {%- else -%}
-            {%- set_global return = prev_section.permalink -%}
+            {%- if prev_section.title != "assets_section_no_render" -%}
+                {%- set_global return = prev_section.permalink -%}
+            {%- else -%}
+                {%- set_global return = self::get_prev_path_for_section(section_obj=prev_section) -%}
+            {%- endif -%}
         {%- endif -%}
     {%- elif root_section_obj.permalink == parent_section_obj.permalink -%}
         {%- set_global return = "empty" -%}
@@ -185,7 +189,11 @@
         {%- set return_section_obj = get_section(
             path=section_obj.subsections | first
         ) -%}
-        {%- set_global return = return_section_obj.permalink -%}
+        {%- if return_section_obj.title != "assets_section_no_render" -%}
+            {%- set_global return = return_section_obj.permalink -%}
+        {%- else -%}
+            {%- set_global return = self::get_next_link_for_section(section_obj=return_section_obj) -%}
+        {%- endif -%}
     {%- elif section_obj.pages -%}
         {%- set return_page_obj = section_obj.pages | first -%}
         {%- set_global return = return_page_obj.permalink -%}
@@ -193,13 +201,21 @@
         {%- set return_section_obj = get_section(
             path=section_obj.subsections | first
         ) -%}
-        {%- set_global return = return_section_obj.permalink -%}
+        {%- if return_section_obj.title != "assets_section_no_render" -%}
+            {%- set_global return = return_section_obj.permalink -%}
+        {%- else -%}
+            {%- set_global return = self::get_next_link_for_section(section_obj=return_section_obj) -%}
+        {%- endif -%}
     {%- else -%}
         {%- if self::get_next_section_path_for_section(section_obj=section_obj) != "empty" -%}
             {%- set return_section_obj = get_section(
                 path=self::get_next_section_path_for_section(section_obj=section_obj)
              ) -%}
-            {%- set_global return = return_section_obj.permalink -%}
+            {%- if return_section_obj.title != "assets_section_no_render" -%}
+                {%- set_global return = return_section_obj.permalink -%}
+            {%- else -%}
+                {%- set_global return = self::get_next_link_for_section(section_obj=return_section_obj) -%}
+            {%- endif -%}
         {%- else -%}
             {%- set_global return = "empty" -%}
         {%- endif -%}
