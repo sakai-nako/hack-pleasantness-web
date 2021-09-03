@@ -12,6 +12,34 @@
 {% endblock css %}
 
 
+{% block json_ld %}
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {% set len = section.ancestors | length %}
+        {% for section_path in section.ancestors %}
+        {
+          {% set section = get_section(path=section_path) %}
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "name": "{{ section.title }}",
+          "item": "{{ section.permalink | safe }}"
+        },
+        {% endfor %}
+        {
+          "@type": "ListItem",
+          "position": {{ len + 1 }},
+          "name": "{{ section.title }}",
+          "item": "{{ section.permalink | safe }}"
+        }
+      ]
+    }
+  </script>
+{% endblock json_ld %}
+
+
 {% block body%}
     <input type="checkbox" id="content_nav_check">
     <input type="checkbox" id="content_aside_check">

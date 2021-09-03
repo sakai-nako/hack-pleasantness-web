@@ -27,13 +27,13 @@
     {{ section.content | safe }}
     {% for subsection in section.subsections %}
         {% set section_obj = get_section(path=subsection) %}
-        <a href="{{ get_url(path=section_obj.path) }}">
+        <a href="{{ section_obj.permalink }}">
             {{ section_obj.title }}
         </a>
         <br>
     {% endfor %}
     {% for page_obj in section.pages %}
-        <a href="{{ get_url(path=page_obj.path) }}">
+        <a href="{{ page_obj.permalink }}">
             {{ page_obj.title }}
         </a>
     {% endfor %}
