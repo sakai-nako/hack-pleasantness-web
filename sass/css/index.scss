@@ -54,6 +54,16 @@
           max-width: 50vw;
         }
       }
+      .social_link_container {
+        text-align: center;
+        p,
+        a {
+          width: 100%;
+        }
+        p {
+          font-weight: bold;
+        }
+      }
     }
   }
 }
