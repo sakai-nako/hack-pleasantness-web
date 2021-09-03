@@ -30,7 +30,7 @@
     <h1>インフォメーション</h1>
         <div class="index_page_information_container">
             {% set info_section = get_section(path="information/_index.md") %}
-            {% for page in info_section.pages | reverse %}
+            {% for page in info_section.pages %}
                 <div class="index_page_information">
                     <div class="index_page_information_date">
                         {{ page.date | date(format="%Y/%m/%d") }}
