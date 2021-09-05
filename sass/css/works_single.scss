@@ -1,0 +1,42 @@
+@import "base";
+
+.grid-container .content_body .content_inside {
+  display: grid;
+  // prettier-ignore
+  grid-template:
+    "title       title      " auto
+    "thumbnail   caption    " auto
+    "kindle_link kindle_link" auto
+    / auto 1fr;
+  .work_title {
+    grid-area: title;
+    margin-left: 0;
+    width: 100%;
+  }
+  .work_thumbnail {
+    grid-area: thumbnail;
+    display: block;
+    margin-left: 1rem;
+  }
+  .work_caption {
+    grid-area: caption;
+    .work_kindle_link {
+      grid-area: kindle_link;
+      margin-left: 3rem;
+      width: 100%;
+    }
+  }
+}
+
+// スマホ用（599px以下）
+@media screen and (max-width: map-deep-get($breakpoint-map, smartphone)) {
+  .grid-container .content_body .content_inside {
+    // prettier-ignore
+    grid-template:
+    "title       title      " auto
+    "thumbnail   thumbnail  " auto
+    "caption     caption    " auto
+    "kindle_link kindle_link" auto
+    / auto 1fr;
+  }
+}

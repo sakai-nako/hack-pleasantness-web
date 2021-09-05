@@ -2,12 +2,12 @@
 
 
 {% block title %}
-    {{ section.title }}
+    {{ page.title }}
 {% endblock title %}
 
 
 {% block css %}
-    <link rel="stylesheet" href="{{ get_url(path="css/documents_collection.css") | safe }}">
+    <link rel="stylesheet" href="{{ get_url(path="css/works_single.css") | safe }}">
 {% endblock css %}
 
 
@@ -17,8 +17,8 @@
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {% set len = section.ancestors | length %}
-        {% for section_path in section.ancestors %}
+        {% set len = page.ancestors | length %}
+        {% for section_path in page.ancestors %}
         {
           {% set section = get_section(path=section_path) %}
           "@type": "ListItem",
@@ -30,13 +30,17 @@
         {
           "@type": "ListItem",
           "position": {{ len + 1 }},
-          "name": "{{ section.title }}",
-          "item": "{{ section.permalink | safe }}"
+          "name": "{{ page.title }}",
+          "item": "{{ page.permalink | safe }}"
         }
       ]
     }
   </script>
 {% endblock json_ld %}
+
+
+{% block body%}
+{% endblock body%}
 
 
 {% block content_title %}
@@ -52,17 +56,23 @@
 
 
 {% block content_body %}
-    {{ section.content | safe }}
-    {% for subsection in section.subsections %}
-        {% set section_obj = get_section(path=subsection) %}
+    <h2 class="work_title">{{ page.title }}</h2>
+    <img class="work_thumbnail" src="{{ config.base_url }}/img/{{ page.extra.thumbnail }}" >
+    <div class="work_caption">
         <ul>
-          <li>
-            <a href="{{ section_obj.permalink }}">
-                {{ section_obj.title }}
-            </a>
-          </li>
+            <li>
+                release: {{ page.extra.release_date }}
+            </li>
+            <li>
+                price: {{ page.extra.price }}
+            </li>
         </ul>
-    {% endfor %}
+        <div class="work_caption_description">
+            {{ page.content | safe }}
+        </div>
+        <br>
+        <a class="work_kindle_link" rel="noopener noreferrer" target="_blank" href="{{ page.extra.kindle_link }}">Kindle版のリンク</a>
+    </div>
 {% endblock content_body %}
 
 

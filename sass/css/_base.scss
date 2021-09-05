@@ -61,7 +61,7 @@ li code {
         display: grid;
         grid-template:
           "... .... ... ..... ... ......... ... .... ..." 1fr
-          "... home ... about ... documents ... blog ..." 1fr
+          "... home ... about ... documents ... works ..." 1fr
           "... .... ... ..... ... ......... ... .... ..." 1fr
           /1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         list-style: none;
@@ -78,7 +78,8 @@ li code {
         }
         .header_nav_list_home a:hover,
         .header_nav_list_documents a:hover,
-        .header_nav_list_about a:hover {
+        .header_nav_list_about a:hover,
+        .header_nav_list_works a:hover {
           text-decoration: underline;
         }
         .header_nav_list_home {
@@ -99,14 +100,11 @@ li code {
           justify-content: center;
           align-items: center;
         }
-        .header_nav_list_blog {
-          grid-area: blog;
-          text-align: center;
-          text-decoration: line-through;
-          &::before {
-            display: inline-block;
-            content: "工事中";
-          }
+        .header_nav_list_works {
+          grid-area: works;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
     }
@@ -232,9 +230,9 @@ li code {
         .header_nav_list {
           // prettier-ignore
           grid-template:
-          "... .... ... ..... ... ......... ... .... ..." 0
-          "... home ... about ... documents ... blog ..." calc(#{$header_height} / 2)
-          "... .... ... ..... ... ......... ... .... ..." 0
+          "... .... ... ..... ... ......... ... ....  ..." 0
+          "... home ... about ... documents ... works ..." calc(#{$header_height} / 2)
+          "... .... ... ..... ... ......... ... ....  ..." 0
           /1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         }
       }

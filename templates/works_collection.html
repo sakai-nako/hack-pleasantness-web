@@ -7,7 +7,7 @@
 
 
 {% block css %}
-    <link rel="stylesheet" href="{{ get_url(path="css/documents_collection.css") | safe }}">
+    <link rel="stylesheet" href="{{ get_url(path="css/works_collection.css") | safe }}">
 {% endblock css %}
 
 
@@ -53,16 +53,12 @@
 
 {% block content_body %}
     {{ section.content | safe }}
-    {% for subsection in section.subsections %}
-        {% set section_obj = get_section(path=subsection) %}
-        <ul>
-          <li>
-            <a href="{{ section_obj.permalink }}">
-                {{ section_obj.title }}
-            </a>
-          </li>
-        </ul>
-    {% endfor %}
+
+    <ul>
+        {% for work in section.pages %}
+            <li><a href="{{ work.permalink }}">{{ work.title }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock content_body %}
 
 
