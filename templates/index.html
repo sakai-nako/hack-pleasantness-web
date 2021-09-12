@@ -28,24 +28,44 @@
 {% block content_body %}
     {{ section.content | safe }}
     <h1>インフォメーション</h1>
-        <div class="index_page_information_container">
-            {% set info_section = get_section(path="information/_index.md") %}
-            {% for page in info_section.pages | reverse %}
-                <div class="index_page_information">
-                    <div class="index_page_information_date">
-                        {{ page.date | date(format="%Y/%m/%d") }}
-                    </div>
-                    <details class="index_page_information_detail">
-                        <summary>
-                            {{ page.title }}
-                        </summary>
-                        <div>
-                            {{ page.content | safe }}
-                        </div>
-                    </details>
+    <h2>サイト更新履歴</h2>
+    <div class="index_page_information_container">
+        {% set info_section = get_section(path="information/_index.md") %}
+        {% for page in info_section.pages %}
+            <div class="index_page_information">
+                <div class="index_page_information_date">
+                    {{ page.date | date(format="%Y/%m/%d") }}
                 </div>
-            {% endfor %}
-        </div>
+                <details class="index_page_information_detail">
+                    <summary>
+                        {{ page.title }}
+                    </summary>
+                    <div>
+                        {{ page.content | safe }}
+                    </div>
+                </details>
+            </div>
+        {% endfor %}
+    </div>
+    <h2>Zenn投稿</h2>
+    <div class="index_page_zenn_updates_container">
+        {% set zenn_section = get_section(path="zenn_updates/_index.md") %}
+        {% for page in zenn_section.pages %}
+            <div class="index_page_zenn_updates_date">
+                {{ page.date | date(format="%Y/%m/%d") }}
+            </div>
+            <div class="index_page_zenn_updates_content">
+                {{ page.content | safe }}
+            </div>
+        {% endfor %}
+    </div>
+    <h2>Twitter</h2>
+    <div class="index_page_twitter_container">
+        <a class="twitter-timeline" data-lang="ja" data-width="500" data-height="500" data-dnt="true" data-theme="light" href="https://twitter.com/nazonoobasan407?ref_src=twsrc%5Etfw">
+            Tweets by nazonoobasan407
+        </a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+    </div>
     <h1>プロフィール</h1>
     <div class="index_page_profile_container">
         <img src="img/profile_photo.jpg" alt="profile_photo">
@@ -68,10 +88,6 @@
     </div>
     <hr>
     <div class="social_link_container">
-        <br>
-        <p>Twitter: </p><a rel="noopener noreferrer" target="_blank" href="https://twitter.com/nazonoobasan407">@nazonoobasan407</a>
-        <br>
-        <br>
         <p>lit.link: </p><a rel="noopener noreferrer" target="_blank" href="https://lit.link/sakainako">sakainako</a>
     </div>
 {% endblock content_body %}

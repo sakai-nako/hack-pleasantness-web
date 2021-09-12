@@ -5,7 +5,7 @@
     .content_inside {
       .index_page_information_container {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         .index_page_information {
           .index_page_information_detail {
             display: inline-block;
@@ -27,6 +27,16 @@
               margin-left: 1rem;
             }
           }
+        }
+      }
+      .index_page_zenn_updates_container .index_page_zenn_updates_content {
+        margin-bottom: 1rem;
+      }
+      .index_page_twitter_container {
+        width: 30vw;
+        max-width: 430px;
+        iframe {
+          width: 100% !important;
         }
       }
       .index_page_profile_container {
@@ -83,6 +93,10 @@
             }
           }
         }
+        .index_page_twitter_container {
+          width: 80%;
+          max-width: 500px;
+        }
       }
     }
   }
@@ -95,6 +109,10 @@
       .content_inside {
         .index_page_profile_container {
           flex-direction: column;
+        }
+        .index_page_twitter_container {
+          width: 80%;
+          max-width: 500px;
         }
       }
     }
