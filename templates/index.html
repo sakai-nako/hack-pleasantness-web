@@ -32,32 +32,124 @@
     <div class="index_page_information_container">
         {% set info_section = get_section(path="information/_index.md") %}
         {% for page in info_section.pages %}
-            <div class="index_page_information">
-                <div class="index_page_information_date">
-                    {{ page.date | date(format="%Y/%m/%d") }}
-                </div>
-                <details class="index_page_information_detail">
-                    <summary>
-                        {{ page.title }}
-                    </summary>
-                    <div>
-                        {{ page.content | safe }}
+            {% if loop.index < 6 %}
+                <div class="index_page_information">
+                    <div class="index_page_information_date">
+                        {{ page.date | date(format="%Y/%m/%d") }}
                     </div>
-                </details>
-            </div>
+                    <details class="index_page_information_detail">
+                        <summary>
+                            {{ page.title }}
+                        </summary>
+                        <div>
+                            {{ page.content | safe }}
+                        </div>
+                    </details>
+                </div>
+            {% else %}
+                {% if loop.index == 6 %}
+                    <details class="index_page_information_past_detail">
+                        <summary></summary>
+                        <br>
+                        <div class="index_page_information">
+                            <div class="index_page_information_date">
+                                {{ page.date | date(format="%Y/%m/%d") }}
+                            </div>
+                            <details class="index_page_information_detail">
+                                <summary>
+                                    {{ page.title }}
+                                </summary>
+                                <div>
+                                    {{ page.content | safe }}
+                                </div>
+                            </details>
+                        </div>
+                {% else %}
+                        <div class="index_page_information">
+                            <div class="index_page_information_date">
+                                {{ page.date | date(format="%Y/%m/%d") }}
+                            </div>
+                            <details class="index_page_information_detail">
+                                <summary>
+                                    {{ page.title }}
+                                </summary>
+                                <div>
+                                    {{ page.content | safe }}
+                                </div>
+                            </details>
+                        </div>
+                {% endif %}
+            {% endif %}
         {% endfor %}
+                    </details>
     </div>
     <h2>Zenn投稿</h2>
     <div class="index_page_zenn_updates_container">
         {% set zenn_section = get_section(path="zenn_updates/_index.md") %}
         {% for page in zenn_section.pages %}
-            <div class="index_page_zenn_updates_date">
-                {{ page.date | date(format="%Y/%m/%d") }}
-            </div>
-            <div class="index_page_zenn_updates_content">
-                {{ page.content | safe }}
-            </div>
+            {% if loop.index < 6 %}
+                <div class="index_page_zenn_updates_date">
+                    {{ page.date | date(format="%Y/%m/%d") }}
+                </div>
+                <div class="index_page_zenn_updates_content">
+                    {{ page.content | safe }}
+                </div>
+            {% else %}
+                {% if loop.index == 6 %}
+                    <details class="index_page_zenn_updates_detail">
+                        <summary></summary>
+                        <br>
+                        <div class="index_page_zenn_updates_date">
+                            {{ page.date | date(format="%Y/%m/%d") }}
+                        </div>
+                        <div class="index_page_zenn_updates_content">
+                            {{ page.content | safe }}
+                        </div>
+                {% else %}
+                        <div class="index_page_zenn_updates_date">
+                            {{ page.date | date(format="%Y/%m/%d") }}
+                        </div>
+                        <div class="index_page_zenn_updates_content">
+                            {{ page.content | safe }}
+                        </div>
+                {% endif %}
+            {% endif %}
         {% endfor %}
+                    </details>
+    </div>
+    <h2>note投稿</h2>
+    <div class="index_page_note_updates_container">
+        {% set note_section = get_section(path="note_updates/_index.md") %}
+        {% for page in note_section.pages %}
+            {% if loop.index < 6 %}
+                <div class="index_page_note_updates_date">
+                    {{ page.date | date(format="%Y/%m/%d") }}
+                </div>
+                <div class="index_page_note_updates_content">
+                    {{ page.content | safe }}
+                </div>
+            {% else %}
+                {% if loop.index == 6 %}
+                    <details class="index_page_note_updates_detail">
+                        <summary></summary>
+                        <br>
+                        <div class="index_page_note_updates_date">
+                            {{ page.date | date(format="%Y/%m/%d") }}
+                        </div>
+                        <div class="index_page_note_updates_content">
+                            {{ page.content | safe }}
+                        </div>
+                {% else %}
+                        <div class="index_page_note_updates_date">
+                            {{ page.date | date(format="%Y/%m/%d") }}
+                        </div>
+                        <div class="index_page_note_updates_content">
+                            {{ page.content | safe }}
+                        </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+                    </details>
     </div>
     <h2>Twitter</h2>
     <div class="index_page_twitter_container">

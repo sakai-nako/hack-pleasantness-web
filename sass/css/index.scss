@@ -8,29 +8,37 @@
         flex-direction: column;
         .index_page_information {
           .index_page_information_detail {
-            display: inline-block;
-            margin-bottom: 1rem;
-            summary {
-              display: block;
-            }
-            summary:hover {
-              cursor: pointer;
-              text-decoration: underline;
-            }
-            summary:after {
-              content: url("../img/detail_arrow_close.png");
-            }
-            &[open] > summary:after {
-              content: url("../img/detail_arrow_open.png");
-            }
-            div {
-              margin-left: 1rem;
-            }
+            @include index_page_details;
+          }
+        }
+        .index_page_information_past_detail {
+          @include index_page_details;
+          > summary:before {
+            content: "過去ログ";
           }
         }
       }
-      .index_page_zenn_updates_container .index_page_zenn_updates_content {
-        margin-bottom: 1rem;
+      .index_page_zenn_updates_container {
+        .index_page_zenn_updates_content {
+          margin-bottom: 1rem;
+        }
+        .index_page_zenn_updates_detail {
+          @include index_page_details;
+          > summary:before {
+            content: "過去ログ";
+          }
+        }
+      }
+      .index_page_note_updates_container {
+        .index_page_note_updates_content {
+          margin-bottom: 1rem;
+        }
+        .index_page_note_updates_detail {
+          @include index_page_details;
+          > summary:before {
+            content: "過去ログ";
+          }
+        }
       }
       .index_page_twitter_container {
         width: 30vw;

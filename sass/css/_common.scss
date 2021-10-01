@@ -166,6 +166,27 @@ $height-map: (
   }
 }
 
+@mixin index_page_details() {
+  display: inline-block;
+  margin-bottom: 1rem;
+  summary {
+    display: block;
+  }
+  summary:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  summary:after {
+    content: url("../img/detail_arrow_close.png");
+  }
+  &[open] > summary:after {
+    content: url("../img/detail_arrow_open.png");
+  }
+  div {
+    margin-left: 1rem;
+  }
+}
+
 // -------------------------------------------------------------------
 
 // Common Functions---------------------------------------------------
