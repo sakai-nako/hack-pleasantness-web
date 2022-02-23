@@ -136,6 +136,7 @@ li code {
         li {
           margin-top: 0.5rem;
           margin-bottom: 0.5rem;
+          padding-right: 2rem;
         }
       }
 
@@ -151,33 +152,45 @@ li code {
         font-size: map-deep-get($font-size-map, pc, h1);
         margin: map-deep-get($font-size-map, pc, h1) auto;
         background: map-deep-get($gradient-color-map, h1);
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       h2 {
         font-size: map-deep-get($font-size-map, pc, h2);
         margin: map-deep-get($font-size-map, pc, h2) auto;
         border-bottom: solid 2px rgba(0, 0, 0, 0.1);
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       h3 {
         font-size: map-deep-get($font-size-map, pc, h3);
         margin: map-deep-get($font-size-map, pc, h3) auto;
         border-bottom: solid 2px rgba(0, 0, 0, 0.1);
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       h4 {
         font-size: map-deep-get($font-size-map, pc, h4);
         margin: map-deep-get($font-size-map, pc, h4) auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       h5 {
         font-size: map-deep-get($font-size-map, pc, h5);
         margin: map-deep-get($font-size-map, pc, h5) auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       h6 {
         font-size: map-deep-get($font-size-map, pc, h6);
         margin: map-deep-get($font-size-map, pc, h6) auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
       a {
@@ -185,6 +198,11 @@ li code {
         &:hover {
           border-bottom: 1px solid blue;
         }
+      }
+
+      p {
+        padding-left: 2rem;
+        padding-right: 2rem;
       }
 
       .content_title {
